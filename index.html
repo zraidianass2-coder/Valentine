@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ikram 💘 Valentine?</title>
+
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-family: "Comic Sans MS", system-ui, sans-serif;
+      background: linear-gradient(135deg, #ffd6e0, #ffeef3);
+      overflow:hidden;
+    }
+
+    .card{
+      background:white;
+      border-radius:24px;
+      padding:26px;
+      width:min(520px, 92vw);
+      text-align:center;
+      box-shadow:0 20px 60px rgba(0,0,0,.2);
+    }
+
+    h1{
+      font-size:34px;
+      margin:10px 0;
+    }
+
+    p{
+      font-size:16px;
+      opacity:.9;
+    }
+
+    img{
+      width:180px;
+      border-radius:18px;
+      margin:14px 0;
+    }
+
+    .buttons{
+      position:relative;
+      height:70px;
+      margin-top:10px;
+    }
+
+    button{
+      padding:14px 22px;
+      border:none;
+      border-radius:16px;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    #yes{
+      background:#ff4d6d;
+      color:white;
+      box-shadow:0 10px 25px rgba(255,77,109,.5);
+    }
+
+    #no{
+      background:#adb5bd;
+      color:white;
+      position:absolute;
+      right:0;
+    }
+
+    .hidden{display:none}
+
+    .success{
+      margin-top:18px;
+      background:#fff0f6;
+      padding:18px;
+      border-radius:18px;
+      font-size:17px;
+    }
+
+    .confetti{
+      position:fixed;
+      width:10px;
+      height:14px;
+      top:-20px;
+      animation:fall linear forwards;
+    }
+
+    @keyframes fall{
+      to{
+        transform:translateY(110vh) rotate(720deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>Ikram 🥹💘</h1>
+
+    <p>
+      You are cute, <b>damn pretty</b>, funny,<br>
+      and honestly… my favorite human.
+    </p>
+
+    <!-- Meme GIF (safe & cute) -->
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWR5dGQxMHRzNHlnY2V1dXQ2ZHR2Z3g1d3Z5eXZydzVwZzZ1Z3N4ZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oriO0OEd9QIDdllqo/giphy.gif"
+         alt="cute meme gif">
+
+    <h1>Will you be my Valentine? 💐</h1>
+
+    <p>
+      Warning ⚠️<br>
+      Saying yes may cause excessive cuddles,
+      memes, and happiness.
+    </p>
+
+    <div class="buttons">
+      <button id="yes">YES 💖</button>
+      <button id="no">No 😭</button>
+    </div>
+
+    <div class="success hidden" id="success">
+      💕 YAAAAAY 💕<br><br>
+      Ikram is officially my Valentine 🥰<br>
+      Screenshot this and send it to me 😌💌
+    </div>
+  </div>
+
+  <script>
+    const no = document.getElementById("no");
+    const yes = document.getElementById("yes");
+    const success = document.getElementById("success");
+
+    no.addEventListener("mouseenter", moveNo);
+    no.addEventListener("touchstart", e => {
+      e.preventDefault();
+      moveNo();
+    }, {passive:false});
+
+    function moveNo(){
+      no.style.left = Math.random()*200 + "px";
+      no.style.top  = Math.random()*30 + "px";
+    }
+
+    yes.addEventListener("click", () => {
+      success.classList.remove("hidden");
+      launchConfetti();
+      yes.innerText = "YESSS 😍";
+      no.style.display = "none";
+    });
+
+    function launchConfetti(){
+      for(let i=0;i<120;i++){
+        const c = document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=hsl(${Math.random()*360},90%,60%);
+        c.style.animationDuration=2+Math.random()*2+"s";
+        document.body.appendChild(c);
+        c.addEventListener("animationend",()=>c.remove());
+      }
+    }
+  </script>
+
+</body>
+</html>
