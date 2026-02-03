@@ -24,50 +24,60 @@
       width:min(520px, 92vw);
       text-align:center;
       box-shadow:0 20px 60px rgba(0,0,0,.2);
+      position: relative;
     }
 
     h1{
-      font-size:34px;
+      font-size:30px;
       margin:10px 0;
+      color: #ff4d6d;
     }
 
     p{
       font-size:16px;
       opacity:.9;
+      line-height: 1.5;
     }
 
-    img{
-      width:180px;
+    #main-gif{
+      width:220px;
       border-radius:18px;
       margin:14px 0;
+      transition: all 0.3s ease;
     }
 
-    .buttons{
-      position:relative;
-      height:70px;
-      margin-top:10px;
+    .buttons-container {
+      margin-top: 20px;
+      height: 100px; /* Space for the button to jump around */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      position: relative;
     }
 
     button{
       padding:14px 22px;
       border:none;
       border-radius:16px;
-      font-size:16px;
+      font-size:18px;
       font-weight:800;
       cursor:pointer;
+      transition: all 0.2s ease;
     }
 
-    #yes{
+    #yes {
       background:#ff4d6d;
       color:white;
-      box-shadow:0 10px 25px rgba(255,77,109,.5);
+      box-shadow:0 10px 25px rgba(255,77,109,.4);
+      z-index: 100;
     }
 
-    #no{
+    #no {
       background:#adb5bd;
       color:white;
-      position:absolute;
-      right:0;
+      position: relative; /* Changed from absolute to make it visible at start */
+      z-index: 10;
     }
 
     .hidden{display:none}
@@ -77,7 +87,9 @@
       background:#fff0f6;
       padding:18px;
       border-radius:18px;
-      font-size:17px;
+      font-size:18px;
+      color: #ff4d6d;
+      font-weight: bold;
     }
 
     .confetti{
@@ -86,12 +98,11 @@
       height:14px;
       top:-20px;
       animation:fall linear forwards;
+      z-index: 999;
     }
 
     @keyframes fall{
-      to{
-        transform:translateY(110vh) rotate(720deg);
-      }
+      to{ transform:translateY(110vh) rotate(720deg); }
     }
   </style>
 </head>
@@ -99,26 +110,18 @@
 <body>
 
   <div class="card">
-    <h1>Ikram 🥹💘</h1>
+    <h1 id="main-title">Ikram 😻💕</h1>
 
-    <p>
+    <p id="description">
       You are cute, <b>damn pretty</b>, funny,<br>
       and honestly… THE LOVE OF MY LIFE.
     </p>
 
-    <!-- Meme GIF (safe & cute) -->
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWR5dGQxMHRzNHlnY2V1dXQ2ZHR2Z3g1d3Z5eXZydzVwZzZ1Z3N4ZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oriO0OEd9QIDdllqo/giphy.gif"
-         alt="cute meme gif">
+    <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWR5dGQxMHRzNHlnY2V1dXQ2ZHR2Z3g1d3Z5eXZydzVwZzZ1Z3N4ZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oriO0OEd9QIDdllqo/giphy.gif" alt="cute meme">
 
-    <h1>Will you be my Valentine? 💐</h1>
+    <h1 id="question">Will you be my Valentine? 💐</h1>
 
-    <p>
-      Warning ⚠️<br>
-      Saying yes may cause excessive cuddles,
-      and happiness.
-    </p>
-
-    <div class="buttons">
+    <div class="buttons-container" id="btnContainer">
       <button id="yes">YES 💖</button>
       <button id="no">No 😭</button>
     </div>
@@ -134,27 +137,60 @@
     const no = document.getElementById("no");
     const yes = document.getElementById("yes");
     const success = document.getElementById("success");
+    const mainGif = document.getElementById("main-gif");
+    const question = document.getElementById("question");
+    const description = document.getElementById("description");
+    
+    let scale = 1;
 
-    no.addEventListener("mouseenter", moveNo);
-    no.addEventListener("touchstart", e => {
-      e.preventDefault();
-      moveNo();
-    }, {passive:false});
-
-    function moveNo(){
-      no.style.left = Math.random()*200 + "px";
-      no.style.top  = Math.random()*30 + "px";
+    function moveNo() {
+      // 1. Make it smaller
+      scale -= 0.1;
+      if (scale < 0.3) scale = 0.3; // Minimum size so it doesn't disappear
+      
+      // 2. Switch to absolute only AFTER the first interaction
+      no.style.position = "absolute";
+      
+      // 3. Move it randomly within the card
+      const x = Math.random() * 70; // % width
+      const y = Math.random() * 70; // % height
+      
+      no.style.left = x + "%";
+      no.style.top = y + "%";
+      no.style.transform = scale(${scale});
+      
+      // 4. Make it unclickable when tiny
+      if(scale < 0.6) {
+          no.style.pointerEvents = "none";
+          setTimeout(() => { no.style.pointerEvents = "auto"; }, 400);
+      }
     }
 
+    no.addEventListener("mouseenter", moveNo);
+    no.addEventListener("click", (e) => {
+        e.preventDefault();
+        moveNo();
+    });
+
     yes.addEventListener("click", () => {
+      // Change the GIF to a beautiful happy one
+      mainGif.src = "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjhoMHpya25hd3JtZGx6czBheGwxM2lnOTc3cWFscTVrZWFjNzVtNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YIeDDiPW0qo0lAYWCx/giphy.gif"; 
+      
+      // Hide elements
+      question.classList.add("hidden");
+      no.style.display = "none";
+      
+      // Show success
       success.classList.remove("hidden");
       launchConfetti();
-      yes.innerText = "YESSS 😍";
-      no.style.display = "none";
+      
+      // Make "Yes" extra big
+      yes.style.transform = "scale(1.4)";
+      yes.innerText = "BEST DAY EVER! 💖";
     });
 
     function launchConfetti(){
-      for(let i=0;i<120;i++){
+      for(let i=0;i<100;i++){
         const c = document.createElement("div");
         c.className="confetti";
         c.style.left=Math.random()*100+"vw";
@@ -164,6 +200,10 @@
         c.addEventListener("animationend",()=>c.remove());
       }
     }
+  </script>
+
+</body>
+</html>
   </script>
 
 </body>
