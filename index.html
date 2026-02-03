@@ -110,7 +110,7 @@
 <body>
 
   <div class="card">
-    <h1 id="main-title">Ikram 😻💕</h1>
+    <h1 id="main-title">Ikram 💕😻</h1>
 
     <p id="description">
       You are cute, <b>damn pretty</b>, funny,<br>
@@ -157,7 +157,7 @@
       
       no.style.left = x + "%";
       no.style.top = y + "%";
-      no.style.transform = scale(${scale});
+      no.style.transform = `scale(${scale})`;
       
       // 4. Make it unclickable when tiny
       if(scale < 0.6) {
@@ -194,16 +194,12 @@
         const c = document.createElement("div");
         c.className="confetti";
         c.style.left=Math.random()*100+"vw";
-        c.style.background=hsl(${Math.random()*360},90%,60%);
+        c.style.background=`hsl(${Math.random()*360},90%,60%)`;
         c.style.animationDuration=2+Math.random()*2+"s";
         document.body.appendChild(c);
         c.addEventListener("animationend",()=>c.remove());
       }
     }
-  </script>
-
-</body>
-</html>
   </script>
 
 </body>
